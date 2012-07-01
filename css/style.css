@@ -1,0 +1,23 @@
+@font-face {
+    font-family: 'Centro Slab Pro Italic';
+    src: url('/fonts/centro_slab.eot');
+    src: url('/fonts/centro_slab.eot?') format('embedded-opentype'),
+    url('/fonts/centro_slab.woff') format('woff'),
+    url('/fonts/centro_slab.ttf') format('opentype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+body { font-family:Cambria, Georgia, serif; font-size-adjust:0.496; font-weight:normal; font-style:italic; }
+
+
+
+body { background: url( /img/inv_card.png ) no-repeat right top; }
+
+.page {
+  width: 750px;
+  background-color: rgba( 255, 255, 255, 0.9 );
+  padding: 20px;
+  border-radius: 15px;
+}
+
