@@ -8,16 +8,21 @@
     font-style: italic;
 }
 
-body { font-family:Cambria, Georgia, serif; font-size-adjust:0.496; font-weight:normal; font-style:italic; }
+body { font-family:Cambria, Georgia, serif; font-size-adjust:0.496; font-weight:normal; font-style:italic; width: 1280px; }
 
 
 
-body { background: url( /img/inv_card.png ) no-repeat right top; }
+body {  }
 
 .page {
-  width: 750px;
-  background-color: rgba( 255, 255, 255, 0.9 );
+  width: 100%;
+  /*background-color: rgba( 255, 255, 255, 0.9 );*/
   padding: 20px;
   border-radius: 15px;
 }
 
+.left { width: 750px; float: left; }
+.right { width: 530px; float: left; background: url( /img/inv_card.png ) no-repeat top center; min-height: 500px; padding: 500px 0 0; }
+.align-center { text-align: center; width: 100%; }
+.clear-both { clear: both; }
+.margin-left { margin-left: 54px; margin-right: 54px; }
