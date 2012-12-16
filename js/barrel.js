@@ -18,6 +18,7 @@
       }, options ) );
       this.initBarrel();
       this._bindKB();
+      this.pointer = 0;
     },
     
     setCenter: function( x, y ) {
@@ -63,14 +64,36 @@
     },
     
     next: function() {
-      this.rotateOn( this.options.angle );
-    },
-    
-    prev: function() {
+      if ( !is_empty( this.locked ) && this.locked ) {
+        return;
+      }
+      if ( this.pointer >= this.options.pics.length - 1 ) {
+        // FIX ME
+        return;
+        // END OF FIX ME
+      }
+      this.pointer++;
       this.rotateOn( -1 * this.options.angle );
     },
     
+    prev: function() {
+      if ( !is_empty( this.locked ) && this.locked ) {
+        return;
+      }
+      if ( this.pointer <= 0 ) {
+        // FIX ME
+        return;
+        // END OF FIX ME
+      }
+      this.pointer--;
+      this.rotateOn( this.options.angle );
+    },
+    
     rotateOn: function( angle ) {
+      if ( !is_empty( this.locked ) && this.locked ) {
+        return;
+      }
+      this.locked = true
       var self = this;
       this.sectors.each( function( sector, ix ) {
         var tr = sector.attr( "transform" ),
@@ -88,6 +111,7 @@
                 rotation[ 1 ] += -1 * angle * ( self.options.sectors );
                 sector.attr( "transform", rotation );
                 self.sectors[ operators[ 0 ] ]( self.sectors[ operators[ 1 ] ]() );
+                self.locked = false;
               }
           rotation[ 1 ] += angle;
           sector.animate( { transform: rotation }, 500, "<>", cb );
@@ -99,9 +123,9 @@
       var self = this;
       document.addEvent( 'keydown', function( e ) {
         if ( !is_empty( e.key ) ) {
-          if ( e.key == "left" ) {
+          if ( e.key == "right" ) {
             self.next.call( self );
-          } else if ( e.key == "right" ) {
+          } else if ( e.key == "left" ) {
             self.prev.call( self );
           }
         }
