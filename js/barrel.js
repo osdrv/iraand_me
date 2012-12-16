@@ -63,14 +63,20 @@
       }
     },
     
+    _getNonAngle: function() {
+      return this.options.angle / 15;
+    },
+    
     next: function() {
       if ( !is_empty( this.locked ) && this.locked ) {
         return;
       }
       if ( this.pointer >= this.options.pics.length - 1 ) {
-        // FIX ME
+        var self = this;
+        this.rotateOn( -1 * this._getNonAngle(), 100, ">", function() {
+          self.rotateOn( self._getNonAngle(), 100, "<>", function() {}, false );
+        }, false );
         return;
-        // END OF FIX ME
       }
       this.pointer++;
       this.rotateOn( -1 * this.options.angle );
@@ -81,20 +87,38 @@
         return;
       }
       if ( this.pointer <= 0 ) {
-        // FIX ME
+        var self = this;
+        this.rotateOn( this._getNonAngle(), 100, ">", function() {
+          self.rotateOn( -1 * self._getNonAngle(), 100, "<>", function() {}, false );
+        }, false );
         return;
-        // END OF FIX ME
       }
       this.pointer--;
       this.rotateOn( this.options.angle );
     },
     
-    rotateOn: function( angle ) {
+    noRotate: function( angle ) {
       if ( !is_empty( this.locked ) && this.locked ) {
         return;
       }
-      this.locked = true
+      this.locked = true;
       var self = this;
+    },
+    
+    rotateOn: function( angle, duration, easing, cb, is_complete ) {
+      if ( !is_empty( this.locked ) && this.locked ) {
+        return;
+      }
+      easing = easing || "<>";
+      duration = duration || 500;
+      cb = cb || function() {};
+      is_complete = is_empty( is_complete ) ? true : is_complete;
+      this.locked = true;
+      var self = this,
+      from_end = ( angle > 0 ),
+      bound_ix = from_end ? ( this.sectors.length - 1 ) : 0,
+      operators = from_end ? [ "unshift", "pop" ] : [ "push", "shift" ];
+      
       this.sectors.each( function( sector, ix ) {
         var tr = sector.attr( "transform" ),
             rotation;
@@ -104,17 +128,17 @@
           }
         } );
         if ( !is_empty( rotation ) ) {
-          var from_end = ( angle > 0 ),
-              bound_ix = from_end ? ( self.sectors.length - 1 ) : 0,
-              operators = from_end ? [ "unshift", "pop" ] : [ "push", "shift" ],
-              cb = ( ix !== bound_ix ) ? function() {} : function() {
-                rotation[ 1 ] += -1 * angle * ( self.options.sectors );
-                sector.attr( "transform", rotation );
-                self.sectors[ operators[ 0 ] ]( self.sectors[ operators[ 1 ] ]() );
+          var return_cb = ( ix !== bound_ix ) ? function() {} : function() {
+                if ( is_complete ) {
+                  rotation[ 1 ] += -1 * angle * ( self.options.sectors );
+                  sector.attr( "transform", rotation );
+                  self.sectors[ operators[ 0 ] ]( self.sectors[ operators[ 1 ] ]() );
+                }
                 self.locked = false;
+                cb.call();
               }
           rotation[ 1 ] += angle;
-          sector.animate( { transform: rotation }, 500, "<>", cb );
+          sector.stop().animate( { transform: rotation }, duration, easing, return_cb );
         };
       } );
     },
