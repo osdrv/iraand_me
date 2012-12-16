@@ -30,41 +30,6 @@
       
       var parts = [
         {
-          title: "Утро",
-          pic_cnt: 112,
-          path: "morning"
-        },
-        {
-          title: "Нескучный сад",
-          pic_cnt: 86,
-          path: "neskuchniy"
-        },
-        {
-          title: "Теннисисты",
-          pic_cnt: 59,
-          path: "tennis"
-        },
-        {
-          title: "Корстон",
-          pic_cnt: 47,
-          path: "korston"
-        },
-        {
-          title: "Сад баумана",
-          pic_cnt: 221,
-          path: "bauman"
-        },
-        {
-          title: "Загс",
-          pic_cnt: 88,
-          path: "office"
-        },
-        {
-          title: "Фото с гостями",
-          pic_cnt: 76,
-          path: "friends"
-        },
-        {
           title: "Ресторан",
           pic_cnt: 320,
           path: "rest"
@@ -76,11 +41,17 @@
         for ( var i = 1; i <= part.pic_cnt; i++ ) {
           pics.push( "img/" + part.path + "/tiny/" + PIC_PREFFIX + i + "." + PIC_EXT )
         }
-        new Part({
+        var part = new Part({
           label: part.title,
           width: width,
-          pics: pics
+          pics: pics,
+          header: {
+            y: 40
+          }
         });
+        window.setTimeout( function() {
+          part.expand();
+        }, 500 );
       } );
 
     }, false );

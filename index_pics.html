@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <title>Ira & Oleg's wedding photos</title>
+  <script type="text/javascript" charset="utf-8" src="js/raphael.js"></script>
+</head>
+<body>
+  <div id="canvas">
+    
+  </div>
+  
+  <script type="text/javascript" charset="utf-8">
+    document.addEventListener( "DOMContentLoaded", function() {
+      
+      Raphael.el.getFillPattern = function() {
+        return this.pattern;
+      }
+      
+      var paper_width = window.innerWidth,
+          pic_count = 65,
+          scale = 1,
+          padding = 20,
+          R = 98,
+          L = 200,
+          sqrt3 = Math.sqrt( 3 ),
+          cols = Math.floor( ( paper_width - 2 * R - 2 * padding ) / ( L * sqrt3 / 2 ) ),
+          rows = Math.round( pic_count / ( cols - 0.5 ) ),
+          paper_height = Math.round( 2 * R + 2 * padding + ( rows - 1 ) * L * sqrt3 / 2 ),
+          paper = Raphael( "canvas", paper_width, paper_height ),
+          x, y, circle, j_start,
+          ix = 0;
+          
+          for ( var i = 0; i < rows; ++i ) {
+            j_start = ( i % 2 ) ? 1 : 0;
+            for ( var j = j_start; j < cols; ++j ) {
+              x = padding + R + j * L;
+              y = padding + Math.round( R + i * L * sqrt3 / 2 );
+              if ( i % 2 != 0 ) {
+                x -= Math.round( L / 2 );
+              }
+              if ( ix < pic_count ) {
+              circle = paper.circle( x, y, R / scale );
+                circle.attr({
+                  fill: "url(public/system/1/img_" + ( ix++ ) + ".jpg)",
+                  stroke: null
+                });
+                circle.scale( scale );
+                circle.getFillPattern();
+              }
+            }
+          }
+    }, false );
+  </script>
+</body>
