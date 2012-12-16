@@ -25,48 +25,49 @@
       
       var width = window.innerWidth,
           PIC_EXT = "jpg",
-          PIC_PREFFIX = "img_";
+          PIC_PREFFIX = "img_",
+          PAGE_EXT = ".html"
       
       
       var parts = [
         {
           title: "Утро",
-          pic_cnt: 112,
+          pic_cnt: 1,
           path: "morning"
         },
         {
           title: "Нескучный сад",
-          pic_cnt: 86,
+          pic_cnt: 1,
           path: "neskuchniy"
         },
         {
           title: "Теннисисты",
-          pic_cnt: 59,
+          pic_cnt: 1,
           path: "tennis"
         },
         {
           title: "Корстон",
-          pic_cnt: 47,
+          pic_cnt: 1,
           path: "korston"
         },
         {
           title: "Сад баумана",
-          pic_cnt: 221,
+          pic_cnt: 1,
           path: "bauman"
         },
         {
           title: "Загс",
-          pic_cnt: 88,
+          pic_cnt: 1,
           path: "office"
         },
         {
           title: "Фото с гостями",
-          pic_cnt: 76,
+          pic_cnt: 1,
           path: "friends"
         },
         {
           title: "Ресторан",
-          pic_cnt: 320,
+          pic_cnt: 1,
           path: "rest"
         }
       ];
@@ -79,7 +80,10 @@
         new Part({
           label: part.title,
           width: width,
-          pics: pics
+          pics: pics,
+          header: {
+            href: part.path + PAGE_EXT
+          }
         });
       } );
 

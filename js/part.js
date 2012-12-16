@@ -58,6 +58,9 @@
       .click( function() {
         self.fireEvent( "click" );
       } );
+      if ( !is_empty( this.options.header.href ) ) {
+        this.header.attr( "href", this.options.header.href );
+      }
     },
     
     createContainer: function() {
@@ -182,6 +185,9 @@
       
       if ( this.pics.length ) {
         this.pics[ 0 ].getElement().toFront();
+        if ( !is_empty( this.options.header.href ) ) {
+          this.pics[ 0 ].getElement().attr( "href", this.options.header.href );
+        }
       }
     },
     
