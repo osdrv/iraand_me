@@ -4377,6 +4377,8 @@ window.Raphael.svg && function (R) {
         this.next = null;
     },
     elproto = R.el;
+    
+    R.dollar = $;
 
     Element.prototype = elproto;
     elproto.constructor = Element;

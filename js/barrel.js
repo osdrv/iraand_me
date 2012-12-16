@@ -14,7 +14,7 @@
       this.setOptions( Object.merge( {
         x: paper.width / 2,
         y: paper.height / 2,
-        R: 2 * paper.height
+        R: 3 * paper.height
       }, options ) );
       this.pointer = 0;
       this.initBarrel();
@@ -34,8 +34,8 @@
       this.sectors = [];
       var angle0 = this.options.angle,
           angle = 0,
-          width = this.paper.height * 0.75,
-          height = this.paper.height * 0.75;
+          width = this.paper.height * 0.8,
+          height = this.paper.height * 0.8;
       
       this.sectors = [];
       
@@ -55,11 +55,22 @@
           ( this.options.y + this.options.R )
         ]).attr( {
             stroke: "#000",
-            "stroke-width": 2,
-            fill: this._getPicUrl( i )
+            "stroke-width": 2
           } );
+        this._setSegmentBG( sector, this._getPicUrl( i ) );
         this.sectors.push( sector );
       }
+    },
+    
+    _setSegmentBG: function( segment, bg ) {
+      if ( bg == "" ) {
+        segment.attr( "fill", "#FFF" );
+        return;
+      }
+      segment.attr( "fill", "url(" + bg + ")" );
+      var pattern = segment.pattern,
+          bbox = segment.getBBox( 1 );
+      Raphael.dollar(pattern, {patternTransform: "matrix(1,0,0,1,0,0) translate(" + bbox.x + "," + bbox.y + ")"});
     },
     
     _getNonAngle: function() {
@@ -106,7 +117,7 @@
     
     _getPicUrl: function( index ) {
       var ix = -1 + index + this.pointer;
-      return ( ix >= 0 ) ? ( is_empty( this.options.pics[ ix ] ) ? "" : "url(" + this.options.pics[ ix ] + ")" ) : "";
+      return ( ix >= 0 ) ? ( is_empty( this.options.pics[ ix ] ) ? "" : this.options.pics[ ix ] ) : "";
     },
     
     rotateOn: function( angle, duration, easing, cb, is_complete ) {
@@ -135,7 +146,15 @@
           var return_cb = ( ix !== bound_ix ) ? function() {} : function() {
                 if ( is_complete ) {
                   rotation[ 1 ] += -1 * angle * ( self.options.sectors );
-                  sector.attr( { transform: rotation, fill: self._getPicUrl( self.options.sectors - 1 - ix ) } );
+                  try {
+                    if ( !is_empty( sector.pattern ) && !is_empty( sector.pattern.parentElement ) ) {
+                      sector.pattern.parentElement.removeChild( sector.pattern );
+                    }
+                  } catch ( e ) {
+                    console.log( e.message );
+                  }
+                  sector.attr( { transform: rotation } );
+                  self._setSegmentBG( sector, self._getPicUrl( self.options.sectors - 1 - ix ) );
                   self.sectors[ operators[ 0 ] ]( self.sectors[ operators[ 1 ] ]() );
                 }
                 self.locked = false;
