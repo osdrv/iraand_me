@@ -16,9 +16,9 @@
         y: paper.height / 2,
         R: 2 * paper.height
       }, options ) );
+      this.pointer = 0;
       this.initBarrel();
       this._bindKB();
-      this.pointer = 0;
     },
     
     setCenter: function( x, y ) {
@@ -37,8 +37,6 @@
           width = this.paper.height * 0.75,
           height = this.paper.height * 0.75;
       
-      this.paper.circle( this.options.x, this.options.y, 10 ).attr( { fill: "#F00" } );
-      
       this.sectors = [];
       
       for ( var i = 0; i < this.options.sectors; i++ ) {
@@ -50,15 +48,16 @@
           this.options.y - height / 2,
           width,
           height
-        ).attr( {
-          stroke: "#000",
-          "stroke-width": 2
-        } ).transform([
+        ).transform([
           "r" + 
           -1 * angle + "," +
           this.options.x + "," +
           ( this.options.y + this.options.R )
-        ]);
+        ]).attr( {
+            stroke: "#000",
+            "stroke-width": 2,
+            fill: this._getPicUrl( i )
+          } );
         this.sectors.push( sector );
       }
     },
@@ -105,6 +104,11 @@
       var self = this;
     },
     
+    _getPicUrl: function( index ) {
+      var ix = -1 + index + this.pointer;
+      return ( ix >= 0 ) ? ( is_empty( this.options.pics[ ix ] ) ? "" : "url(" + this.options.pics[ ix ] + ")" ) : "";
+    },
+    
     rotateOn: function( angle, duration, easing, cb, is_complete ) {
       if ( !is_empty( this.locked ) && this.locked ) {
         return;
@@ -131,7 +135,7 @@
           var return_cb = ( ix !== bound_ix ) ? function() {} : function() {
                 if ( is_complete ) {
                   rotation[ 1 ] += -1 * angle * ( self.options.sectors );
-                  sector.attr( "transform", rotation );
+                  sector.attr( { transform: rotation, fill: self._getPicUrl( self.options.sectors - 1 - ix ) } );
                   self.sectors[ operators[ 0 ] ]( self.sectors[ operators[ 1 ] ]() );
                 }
                 self.locked = false;
