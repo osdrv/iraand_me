@@ -9,16 +9,25 @@
       sectors: 3
     },
     
-    initialize: function( paper, options ) {
-      this.paper = paper;
-      this.setOptions( Object.merge( {
-        x: paper.width / 2,
-        y: paper.height / 2,
-        R: 3 * paper.height
-      }, options ) );
-      this.pointer = 0;
-      this.initBarrel();
-      this._bindKB();
+    initialize: function( options ) {
+      
+      var self = this;
+      
+      Raphael( 0, document.body.scrollTop, window.innerWidth, 1000, function() {
+        self.paper = this;
+        ( function() {
+          
+          this.setOptions( Object.merge( {
+            x: this.paper.width / 2,
+            y: this.paper.height / 2,
+            R: 3 * this.paper.height
+          }, options ) );
+          
+          this.pointer = 0;
+          this.initBarrel();
+          this._bindKB();
+        } ).call( self );
+      } );
     },
     
     setCenter: function( x, y ) {
@@ -54,8 +63,7 @@
           this.options.x + "," +
           ( this.options.y + this.options.R )
         ]).attr( {
-            stroke: "#000",
-            "stroke-width": 2
+            stroke: null
           } );
         this._setSegmentBG( sector, this._getPicUrl( i ) );
         this.sectors.push( sector );
@@ -68,9 +76,12 @@
         return;
       }
       segment.attr( "fill", "url(" + bg + ")" );
-      var pattern = segment.pattern,
-          bbox = segment.getBBox( 1 );
-      Raphael.dollar(pattern, {patternTransform: "matrix(1,0,0,1,0,0) translate(" + bbox.x + "," + bbox.y + ")"});
+      var pattern = segment.pattern;
+      if ( !is_empty( segment.pattern ) ) {
+        bbox = segment.getBBox( 1 );
+        Raphael.dollar(pattern, {patternTransform: "matrix(1,0,0,1,0,0) translate(" + bbox.x + "," + bbox.y + ")"});
+      }
+      
     },
     
     _getNonAngle: function() {
