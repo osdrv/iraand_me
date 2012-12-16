@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <title>Мы!</title>
+  <link rel="stylesheet" href="css/part.css" type="text/css" media="screen" title="no title" charset="utf-8">
+  <!-- Ищещь готовый жыквери плагин? Пеши на мутулз и рафаэлях! -->
+  <script type="text/javascript" charset="utf-8" src="js/mt.js"></script>
+  <script type="text/javascript" charset="utf-8" src="js/raphael.max.js"></script>
+  <script type="text/javascript" charset="utf-8" src="js/animate.js"></script>
+  <script type="text/javascript" charset="utf-8" src="js/util.js"></script>
+  <script type="text/javascript" charset="utf-8" src="js/ex_path.js"></script>
+  <script type="text/javascript" charset="utf-8" src="js/barrel.js"></script>
+</head>
+<body>
+  
+  <div id="page">
+    <div id="top_header" class="top_header">
+      <h1><a href="/">Мы!))</a></h1>
+    </div>
+    <div id="paper"></div>
+  </div>
+  
+  <script type="text/javascript" charset="utf-8">
+    document.addEventListener( "DOMContentLoaded", function() {
+      
+      Raphael( "paper", window.innerWidth, 600, function() {
+        new Barrel( this, {
+          pics: [
+            "img/korston/img_1.jpg",
+            "img/korston/img_2.jpg",
+            "img/korston/img_3.jpg",
+            "img/korston/img_4.jpg",
+            "img/korston/img_5.jpg",
+            "img/korston/img_6.jpg",
+            "img/korston/img_7.jpg",
+            "img/korston/img_8.jpg"
+          ]
+        } );
+      } )
+      
+    } );
+  </script>
+</body>

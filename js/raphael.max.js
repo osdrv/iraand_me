@@ -4233,7 +4233,7 @@ window.Raphael.svg && function (R) {
                                 o.paper.defs.appendChild(el);
                                 $(node, {fill: "url(#" + el.id + ")"});
                                 o.pattern = el;
-                                // o.pattern && updatePosition(o);
+                                o.pattern && updatePosition(o);
                             } else {
                                 $(node, {fill: value});
                                 o.pattern = document.getElementById(isRef[1]);
