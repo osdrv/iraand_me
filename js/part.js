@@ -45,6 +45,9 @@
       } );
       
       this.is_expanded = false;
+      
+      this._initBarrel();
+      
     },
     
     initHeader: function() {
@@ -262,6 +265,14 @@
     _getContentHeight: function() {
       var o = this.options.pic;
       return Math.round( 2 * o.R + 2 * o.padding + ( this._getRows() - 1 ) * o.L * Math.sqrt( 3 ) / 2 );
+    },
+    
+    _initBarrel: function() {
+      var large_pics = this.options.pics.clone();
+      large_pics.each( function( pic, i ) {
+        large_pics[ i ] = pic.replace( '/tiny', '' );
+      } );
+      this.barrel = new Barrel( { pics: large_pics } );
     }
     
   });

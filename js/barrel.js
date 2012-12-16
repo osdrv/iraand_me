@@ -128,7 +128,7 @@
     
     _getPicUrl: function( index ) {
       var ix = -1 + index + this.pointer;
-      return ( ix >= 0 ) ? ( is_empty( this.options.pics[ ix ] ) ? "" : this.options.pics[ ix ] ) : "";
+      return ( ix >= 0 && !is_empty( this.options.pics ) ) ? ( is_empty( this.options.pics[ ix ] ) ? "" : this.options.pics[ ix ] ) : "";
     },
     
     rotateOn: function( angle, duration, easing, cb, is_complete ) {
