@@ -6,7 +6,8 @@
     
     options: {
       angle: 30,
-      sectors: 3
+      sectors: 3,
+      visible: true
     },
     
     initialize: function( options ) {
@@ -26,8 +27,25 @@
           this.pointer = 0;
           this.initBarrel();
           this._bindKB();
+          
+          this.is_visible = true;
+          if ( !this.options.visible ) {
+            this.is_visible = false;
+            this.hide();
+          }
         } ).call( self );
       } );
+    },
+    
+    hide: function() {
+      this.is_visible = false;
+      this.paper.canvas.style.display = "none";
+    },
+    
+    show: function() {
+      this.paper.canvas.style.top = document.body.scrollTop + "px";
+      this.is_visible = true;
+      this.paper.canvas.style.display = "block";
     },
     
     setCenter: function( x, y ) {
@@ -70,6 +88,18 @@
       }
     },
     
+    setPointer: function( pointer ) {
+      this.pointer = pointer;
+      var self = this,
+          ix = 0;
+      this.sectors.each( function( sector ) {
+        self._setSegmentBG( sector, self._getPicUrl( ix ) );
+        ix++;
+      } );
+      console.log( pointer )
+      
+    },
+    
     _setSegmentBG: function( segment, bg ) {
       if ( bg == "" ) {
         segment.attr( "fill", "#FFF" );
@@ -86,7 +116,7 @@
             x: self.paper.width / 2 - pattern.width.baseVal.value / 2
           });
           bbox = segment.getBBox( 1 );
-          Raphael.dollar(pattern, {patternTransform: "matrix(1,0,0,1,0,0) translate(" + bbox.x + "," + bbox.y + ")"});
+          Raphael.dollar( pattern, { patternTransform: "matrix(1,0,0,1,0,0) translate(" + bbox.x + "," + bbox.y + ")" } );
         }
       } );
     },
@@ -195,10 +225,6 @@
           }
         }
       } );
-    },
-    
-    _preloadPic: function( pic_url ) {
-      
     }
     
   });

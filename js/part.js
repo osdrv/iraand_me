@@ -41,13 +41,13 @@
           this.initContent();
           this.initBlocks();
           this.initHeader();
+          this._bindEvents();
         } ).call( self )
       } );
       
       this.is_expanded = false;
       
       this._initBarrel();
-      
     },
     
     initHeader: function() {
@@ -168,7 +168,7 @@
             x -= Math.round( L / 2 );
           }
           if ( ix < pic_count ) {
-            this.pics.push( this._createPic( x, y0, x, y, R, this.options.pics[ ix ] ) );
+            this.pics.push( this._createPic( x, y0, x, y, R, this.options.pics[ ix ], ix ) );
           }
           ix++;
         }
@@ -194,12 +194,13 @@
       }
     },
     
-    _createPic: function( x0, y0, x1, y1, R, pic_url ) {
+    _createPic: function( x0, y0, x1, y1, R, pic_url, ix ) {
       return new Pic( this.paper, {
         x: x0,
         y: y0,
         R: R,
-        pic_url: pic_url
+        pic_url: pic_url,
+        href: "#" + ix
       } ).setExpandedPos( { x: x1, y: y1 } );
     },
     
@@ -272,7 +273,39 @@
       large_pics.each( function( pic, i ) {
         large_pics[ i ] = pic.replace( '/tiny', '' );
       } );
-      this.barrel = new Barrel( { pics: large_pics } );
+      this.barrel = new Barrel( { pics: large_pics, visible: false } );
+    },
+    
+    showBarrel: function( pointer ) {
+      pointer = pointer || 0;
+      this.barrel.setPointer( pointer );
+      this.barrel.show();
+    },
+    
+    hideBarrel: function() {
+      this.barrel.hide();
+    },
+    
+    _bindEvents: function() {
+      var self = this,
+          h;
+      this.pics.each( function( pic ) {
+        if ( h = pic.getElement().attr( "href" ) ) {
+          pic.getElement().click( ( function( hsh ) {
+            return function() {
+              var ix = parseInt( hsh.replace( "#", "" ), 10 );
+              console.log( ix );
+              self.barrel.setPointer( ix );
+              self.barrel.show();
+            }
+          } )( h ) );
+        }
+      } );
+      window.addEvent( "keydown", function( e ) {
+        if ( e.key == "esc" ) {
+          self.barrel.hide();
+        }
+      } )
     }
     
   });

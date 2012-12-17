@@ -489,3 +489,41 @@ params.movie=path;}else{properties.type="application/x-shockwave-flash";}propert
 },replaces:function(element){element=document.id(element,true);element.parentNode.replaceChild(this.toElement(),element);return this;},inject:function(element){document.id(element,true).appendChild(this.toElement());
 return this;},remote:function(){return Swiff.remote.apply(Swiff,[this.toElement()].append(arguments));}});Swiff.CallBacks={};Swiff.remote=function(obj,fn){var rs=obj.CallFunction('<invoke name="'+fn+'" returntype="javascript">'+__flash__argumentsToXML(arguments,2)+"</invoke>");
 return eval(rs);};})();
+
+/*
+---
+description: Added the onhashchange event
+
+license: MIT-style
+
+authors: 
+- sdf1981cgn
+- Greggory Hernandez
+
+requires: 
+- core/1.2.4: '*'
+
+provides: [Element.Events.hashchange]
+
+...
+*/
+Element.Events.hashchange = {
+    onAdd: function(){
+        var hash = self.location.hash;
+
+        var hashchange = function(){
+            if (hash == self.location.hash) return;
+            else hash = self.location.hash;
+
+            var value = (hash.indexOf('#') == 0 ? hash.substr(1) : hash);
+            window.fireEvent('hashchange', value);
+            document.fireEvent('hashchange', value);
+        };
+
+        if ("onhashchange" in window){
+            window.onhashchange = hashchange;
+        } else {
+            hashchange.periodical(50);
+        }
+    }
+};
