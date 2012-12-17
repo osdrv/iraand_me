@@ -41,13 +41,12 @@
           this.initContent();
           this.initBlocks();
           this.initHeader();
+          this._initBarrel();
+          this.is_expanded = false;
           this._bindEvents();
         } ).call( self )
       } );
       
-      this.is_expanded = false;
-      
-      this._initBarrel();
     },
     
     initHeader: function() {
@@ -288,15 +287,17 @@
     
     _bindEvents: function() {
       var self = this,
-          h;
+          h,
+          showByHsh = function( hsh ) {
+            var ix = parseInt( hsh.replace( "#", "" ), 10 );
+            self.barrel.setPointer( ix );
+            self.barrel.show();
+          }
       this.pics.each( function( pic ) {
         if ( h = pic.getElement().attr( "href" ) ) {
           pic.getElement().click( ( function( hsh ) {
             return function() {
-              var ix = parseInt( hsh.replace( "#", "" ), 10 );
-              console.log( ix );
-              self.barrel.setPointer( ix );
-              self.barrel.show();
+              showByHsh.call( self, hsh );
             }
           } )( h ) );
         }
@@ -305,7 +306,10 @@
         if ( e.key == "esc" ) {
           self.barrel.hide();
         }
-      } )
+      } );
+      if ( window.location.hash ) {
+        showByHsh( window.location.hash );
+      }
     }
     
   });

@@ -96,8 +96,6 @@
         self._setSegmentBG( sector, self._getPicUrl( ix ) );
         ix++;
       } );
-      console.log( pointer )
-      
     },
     
     _setSegmentBG: function( segment, bg ) {
