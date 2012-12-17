@@ -4228,6 +4228,7 @@ window.Raphael.svg && function (R) {
                                         $(el, {width: w, height: h});
                                         $(ig, {width: w, height: h});
                                         o.paper.safari();
+                                        eve( isURL[1] + ".loaded" );
                                     });
                                 })(el);
                                 o.paper.defs.appendChild(el);

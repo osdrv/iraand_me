@@ -76,16 +76,23 @@
         return;
       }
       segment.attr( "fill", "url(" + bg + ")" );
-      var pattern = segment.pattern;
-      if ( !is_empty( segment.pattern ) ) {
-        bbox = segment.getBBox( 1 );
-        Raphael.dollar(pattern, {patternTransform: "matrix(1,0,0,1,0,0) translate(" + bbox.x + "," + bbox.y + ")"});
-      }
-      
+      var pattern = segment.pattern,
+          self = this;
+      eve.once( bg + ".loaded", function() {
+        if ( !is_empty( pattern ) ) {
+          segment.attr( {
+            width: pattern.width.baseVal.value,
+            height: pattern.height.baseVal.value,
+            x: self.paper.width / 2 - pattern.width.baseVal.value / 2
+          });
+          bbox = segment.getBBox( 1 );
+          Raphael.dollar(pattern, {patternTransform: "matrix(1,0,0,1,0,0) translate(" + bbox.x + "," + bbox.y + ")"});
+        }
+      } );
     },
     
     _getNonAngle: function() {
-      return this.options.angle / 15;
+      return this.options.angle / 30;
     },
     
     next: function() {
