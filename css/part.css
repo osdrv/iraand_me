@@ -58,3 +58,12 @@ body { margin: 0; padding: 0 }
   -ms-transition: all 500ms linear;
   transition: all 500ms linear;
 }
+
+.close-button {
+  position: fixed;
+  top: 50px;
+  right: 50px;
+  background: url(../img/close.png);
+  width: 48px;
+  height: 48px;
+}

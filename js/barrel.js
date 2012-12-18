@@ -247,6 +247,7 @@
     },
     
     _initTint: function() {
+      var self = this;
       this.tint = new Element( "div", {
         styles: {
           position: "fixed",
@@ -259,11 +260,19 @@
         },
         class: "hidden tint"
       } );
-      $("page").grab( this.tint );
+      this.close_button = new Element( "div", {
+        class: "close-button hidden"
+      } ).addEvent( "click", function() {
+        self.hide();
+      } );
+      $("page").grab( this.tint )
+      $(document.body).grab( this.close_button );
     },
     
     showTint: function( cb ) {
-      this.tint.removeClass( "hidden" ).addClass( "shown" );
+      each( [ this.close_button, this.tint ], function( el ) {
+        el.removeClass( "hidden" ).addClass( "shown" );
+      } );
       $("page").addClass( "blured" );
       try {
         window.setTimeout( cb, 500 );
@@ -273,7 +282,9 @@
     },
     
     hideTint: function( cb ) {
-      this.tint.removeClass( "shown" ).addClass( "hidden" );
+      each( [ this.close_button, this.tint ], function( el ) {
+        el.removeClass( "shown" ).addClass( "hidden" );
+      } );
       $("page").removeClass( "blured" );
       try {
         window.setTimeout( cb, 500 );
