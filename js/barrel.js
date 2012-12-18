@@ -67,7 +67,8 @@
       var angle0 = this.options.angle,
           angle = 0,
           width = this.paper.height * 0.8,
-          height = this.paper.height * 0.8;
+          height = this.paper.height * 0.8,
+          self = this;
       
       this.sectors = [];
       
@@ -86,8 +87,14 @@
           this.options.x + "," +
           ( this.options.y + this.options.R )
         ]).attr( {
-            stroke: null
-          } );
+          stroke: null
+        } ).click( function( e ) {
+          if ( e.x < self.paper.width / 2 ) {
+            self.prev();
+          } else {
+            self.next();
+          }
+        } )
         this._setSegmentBG( sector, this._getPicUrl( i ) );
         this.sectors.push( sector );
       }

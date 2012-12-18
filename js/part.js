@@ -293,6 +293,7 @@
         var self = this,
             h,
             showByHsh = function( hsh ) {
+              self.barrel.hide();
               var ix = parseInt( hsh.replace( "#", "" ), 10 );
               self.barrel.setPointer( ix );
               self.barrel.show();
@@ -308,6 +309,13 @@
         } );
         window.addEvent( "keydown", function( e ) {
           if ( e.key == "esc" ) {
+            self.barrel.hide();
+          }
+        } );
+        window.addEvent( "hashchange", function( h ) {
+          if ( h ) {
+            showByHsh( h );
+          } else {
             self.barrel.hide();
           }
         } );
