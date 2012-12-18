@@ -312,18 +312,17 @@
             self.barrel.hide();
           }
         } );
-        window.addEvent( "hashchange", function( h ) {
-          if ( h ) {
-            showByHsh( h );
-          } else {
-            self.barrel.hide();
-          }
-        } );
         if ( window.location.hash ) {
           window.setTimeout( function() {
             showByHsh( window.location.hash );
           }, 500 );
         }
+        this.barrel.addEvent( "select", function( sector ) {
+          var pointer = self.barrel.getPointer();
+          if ( !is_empty( pointer ) ) {
+            window.location.hash = "" + pointer;
+          }
+        } );
       }
     }
     

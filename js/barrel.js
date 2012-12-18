@@ -100,6 +100,10 @@
       }
     },
     
+    getPointer: function() {
+      return this.pointer;
+    },
+    
     setPointer: function( pointer ) {
       this.pointer = pointer;
       var self = this,
@@ -220,6 +224,9 @@
               }
           rotation[ 1 ] += angle;
           sector.stop().animate( { transform: rotation }, duration, easing, return_cb );
+          if ( rotation[ 1 ] == 0 ) {
+            self.fireEvent( "select", sector );
+          }
         };
       } );
     },
