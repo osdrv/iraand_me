@@ -253,7 +253,9 @@
       $("page").addClass( "blured" );
       try {
         window.setTimeout( cb, 500 );
-      } catch ( e ) {}
+      } catch ( e ) {
+        console.log( e )
+      }
     },
     
     hideTint: function( cb ) {

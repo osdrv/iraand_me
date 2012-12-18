@@ -308,7 +308,9 @@
         }
       } );
       if ( window.location.hash ) {
-        showByHsh( window.location.hash );
+        window.setTimeout( function() {
+          showByHsh( window.location.hash );
+        }, 500 );
       }
     }
     
