@@ -25,7 +25,8 @@
           }, options ) );
           
           this.pointer = 0;
-          this.initBarrel();
+          this._initTint();
+          this._initBarrel();
           this._bindKB();
           
           this.is_visible = true;
@@ -39,13 +40,17 @@
     
     hide: function() {
       this.is_visible = false;
+      this.hideTint();
       this.paper.canvas.style.display = "none";
     },
     
     show: function() {
-      this.paper.canvas.style.top = document.body.scrollTop + "px";
+      this.paper.canvas.style.top = ( document.body.scrollTop ) + "px";
       this.is_visible = true;
-      this.paper.canvas.style.display = "block";
+      var self = this;
+      this.showTint( function() {
+        self.paper.canvas.style.display = "block";
+      } );
     },
     
     setCenter: function( x, y ) {
@@ -57,7 +62,7 @@
       this.options.R = R;
     },
     
-    initBarrel: function() {
+    _initBarrel: function() {
       this.sectors = [];
       var angle0 = this.options.angle,
           angle = 0,
@@ -215,14 +220,48 @@
     _bindKB: function() {
       var self = this;
       document.addEvent( 'keydown', function( e ) {
-        if ( !is_empty( e.key ) ) {
-          if ( e.key == "right" ) {
-            self.next.call( self );
-          } else if ( e.key == "left" ) {
-            self.prev.call( self );
+        if ( self.is_visible ) {
+          if ( !is_empty( e.key ) ) {
+            if ( e.key == "right" ) {
+              self.next.call( self );
+            } else if ( e.key == "left" ) {
+              self.prev.call( self );
+            }
           }
         }
       } );
+    },
+    
+    _initTint: function() {
+      this.tint = new Element( "div", {
+        styles: {
+          position: "fixed",
+          top: 0,
+          left: 0,
+          opacity: 0.5,
+          width: "100%",
+          height: window.innerHeight,
+          "background-color": "#000"
+        },
+        class: "hidden tint"
+      } );
+      $("page").grab( this.tint );
+    },
+    
+    showTint: function( cb ) {
+      this.tint.removeClass( "hidden" ).addClass( "shown" );
+      $("page").addClass( "blured" );
+      try {
+        window.setTimeout( cb, 500 );
+      } catch ( e ) {}
+    },
+    
+    hideTint: function( cb ) {
+      this.tint.removeClass( "shown" ).addClass( "hidden" );
+      $("page").removeClass( "blured" );
+      try {
+        window.setTimeout( cb, 500 );
+      } catch ( e ) {}
     }
     
   });

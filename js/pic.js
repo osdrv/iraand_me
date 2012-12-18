@@ -61,10 +61,6 @@
           fill: "url(" + o.pic_url + ")",
           stroke: null
         } )
-        // .click( function() {
-        //   console.log( this.attr( "fill" ) )
-        //   self.fireEvent( "select", this.attr( "fill" ) );
-        // } );
       if ( !is_empty( this.options.href ) ) {
         this.element.attr( "href", this.options.href );
       }
