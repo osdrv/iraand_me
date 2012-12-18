@@ -26,7 +26,7 @@
       
       var width = window.innerWidth,
           PIC_EXT = "jpg",
-          PIC_PREFFIX = "img_",
+          PIC_PREFFIX = "pic_",
           PAGE_EXT = ".html",
           ARCHIVE_EXT = ".zip";
       
@@ -35,50 +35,56 @@
         {
           title: "Утро",
           pic_cnt: 1,
-          path: "morning"
+          path: "morning",
+          selected: 36
         },
         {
           title: "Нескучный сад",
           pic_cnt: 1,
-          path: "neskuchniy"
+          path: "neskuchniy",
+          selected: 30
         },
         {
           title: "Теннисисты",
           pic_cnt: 1,
-          path: "tennis"
+          path: "tennis",
+          selected: 33
         },
         {
           title: "Корстон",
           pic_cnt: 1,
-          path: "korston"
+          path: "korston",
+          selected: 3
         },
         {
           title: "Сад баумана",
           pic_cnt: 1,
-          path: "bauman"
+          path: "bauman",
+          selected: 79
         },
         {
           title: "Загс",
           pic_cnt: 1,
-          path: "office"
+          path: "office",
+          selected: 69
         },
         {
           title: "Фото с гостями",
           pic_cnt: 1,
-          path: "friends"
+          path: "friends",
+          selected: 74
         },
         {
           title: "Ресторан",
           pic_cnt: 1,
-          path: "rest"
+          path: "rest",
+          selected: 237
         }
       ];
       
       parts.each( function( part ) {
         var pics = [];
-        for ( var i = 1; i <= part.pic_cnt; i++ ) {
-          pics.push( "img/" + part.path + "/tiny/" + PIC_PREFFIX + i + "." + PIC_EXT )
-        }
+        pics.push( "img/" + part.path + "/tiny/" + PIC_PREFFIX + part.selected + "." + PIC_EXT )
         new Part({
           label: part.title,
           width: width,
