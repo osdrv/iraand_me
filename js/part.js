@@ -27,7 +27,8 @@
           "font-style": "italic"
         }
       },
-      pics: []
+      pics: [],
+      barrel: true
     },
     
     initialize: function( options ) {
@@ -41,7 +42,9 @@
           this.initContent();
           this.initBlocks();
           this.initHeader();
-          this._initBarrel();
+          if ( this.options.barrel ) {
+            this._initBarrel();
+          }
           this.is_expanded = false;
           this._bindEvents();
         } ).call( self )
@@ -286,31 +289,33 @@
     },
     
     _bindEvents: function() {
-      var self = this,
-          h,
-          showByHsh = function( hsh ) {
-            var ix = parseInt( hsh.replace( "#", "" ), 10 );
-            self.barrel.setPointer( ix );
-            self.barrel.show();
-          }
-      this.pics.each( function( pic ) {
-        if ( h = pic.getElement().attr( "href" ) ) {
-          pic.getElement().click( ( function( hsh ) {
-            return function() {
-              showByHsh.call( self, hsh );
+      if ( this.options.barrel ) {
+        var self = this,
+            h,
+            showByHsh = function( hsh ) {
+              var ix = parseInt( hsh.replace( "#", "" ), 10 );
+              self.barrel.setPointer( ix );
+              self.barrel.show();
             }
-          } )( h ) );
+        this.pics.each( function( pic ) {
+          if ( h = pic.getElement().attr( "href" ) ) {
+            pic.getElement().click( ( function( hsh ) {
+              return function() {
+                showByHsh.call( self, hsh );
+              }
+            } )( h ) );
+          }
+        } );
+        window.addEvent( "keydown", function( e ) {
+          if ( e.key == "esc" ) {
+            self.barrel.hide();
+          }
+        } );
+        if ( window.location.hash ) {
+          window.setTimeout( function() {
+            showByHsh( window.location.hash );
+          }, 500 );
         }
-      } );
-      window.addEvent( "keydown", function( e ) {
-        if ( e.key == "esc" ) {
-          self.barrel.hide();
-        }
-      } );
-      if ( window.location.hash ) {
-        window.setTimeout( function() {
-          showByHsh( window.location.hash );
-        }, 500 );
       }
     }
     
