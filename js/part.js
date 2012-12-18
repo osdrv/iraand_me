@@ -28,7 +28,8 @@
         }
       },
       pics: [],
-      barrel: true
+      barrel: true,
+      download_path: null
     },
     
     initialize: function( options ) {
@@ -65,6 +66,22 @@
       } );
       if ( !is_empty( this.options.header.href ) ) {
         this.header.attr( "href", this.options.header.href );
+      }
+      if ( !is_empty( this.options.download ) ) {
+        var download = this.paper.set(
+          this.paper.text(
+            this.options.header.x,
+            this.options.header.y + 70,
+            this.options.download.title
+          ).attr(
+            this.options.download.attrs
+          )
+        ).hide();
+        this.paper.canvas.addEvent( "mouseover", function() {
+          download.show();
+        } ).addEvent( "mouseout", function() {
+          download.hide();
+        } );
       }
     },
     

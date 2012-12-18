@@ -265,7 +265,7 @@
       } ).addEvent( "click", function() {
         self.hide();
       } );
-      $("page").grab( this.tint )
+      $("page").grab( this.tint );
       $(document.body).grab( this.close_button );
     },
     
@@ -277,7 +277,7 @@
       try {
         window.setTimeout( cb, 500 );
       } catch ( e ) {
-        console.log( e )
+        console.log( e );
       }
     },
     
