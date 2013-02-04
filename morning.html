@@ -35,12 +35,15 @@
           pic_cnt: 112,
           path: "morning"
         }
-      ];
+      ],
+      reject_ids = [ 16, 17, 19 ];
       
       parts.each( function( part ) {
         var pics = [];
         for ( var i = 0; i < part.pic_cnt; i++ ) {
-          pics.push( "img/" + part.path + "/tiny/" + PIC_PREFFIX + i + "." + PIC_EXT )
+          if ( reject_ids.indexOf( i ) === -1 ) {
+            pics.push( "img/" + part.path + "/tiny/" + PIC_PREFFIX + i + "." + PIC_EXT )
+          }
         }
         var part = new Part({
           label: part.title,
